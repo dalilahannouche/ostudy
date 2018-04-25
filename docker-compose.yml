@@ -1,0 +1,31 @@
+version: "2"
+services:
+  odoo:
+    image: odoo:8.0
+    container_name: dev
+    tty: true
+    ports:
+     - 8069:8069
+    environment:
+      - DB_PORT_5432_TCP_ADDR=hanane_db
+      - DB_PORT_5432_TCP_PORT=5432
+      - DB_ENV_POSTGRES_USER=odoo
+      - DB_ENV_POSTGRES_PASSWORD=odoo
+    links:
+      - db:db
+    volumes:
+        - ./extra-addons:/mnt/extra-addons
+        - ./filestore:/var/lib/odoo
+        - ./conf/openerp-server.conf:/etc/openerp-server.conf
+    network_mode: "bridge"
+
+  db:
+    image: postgres:9.6
+    container_name: dev_db
+    tty: true
+    environment:
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: odoo
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    network_mode: "bridge"
