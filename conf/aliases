@@ -1,0 +1,4 @@
+# -*- shell-script -*-
+
+dcu="docker-compose up"
+dcu="docker-compose down"
